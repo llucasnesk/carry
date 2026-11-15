@@ -5,176 +5,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Carry: coach de League of Legends para PC. Analisa suas ranqueadas, monta runas e avisa o que importa durante a partida.">
 <title>Carry Coach</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 1l3.6 11.4L31 16l-11.4 3.6L16 31l-3.6-11.4L1 16l11.4-3.6z' fill='%23E0263A'/%3E%3Cpath d='M16 8l1.8 6.2L24 16l-6.2 1.8L16 24l-1.8-6.2L8 16l6.2-1.8z' fill='%23F2F2F2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
 <style>
-/* Mesmo visual do app e do launcher: preto, branco e vermelho, cantos retos, rotulos em caixa alta. */
+/* Layout: uma coluna larga com faixas; a cena do jogo (minimapa + balão de aviso) é o herói. Tema único escuro, igual ao app. */
 :root{
-  --bg:#050505;--bar:#0A0A0A;--card:#0E0E0E;--line:#222;--line2:#333;--ink:#F2F2F2;--mute:#8E8E8E;
-  --red:#E0263A;--red2:#B3121F;--ok:#6FCB98;
-  --h:'Barlow Condensed','Arial Narrow',Arial,sans-serif;--b:'Barlow','Segoe UI',Arial,sans-serif;
+  --bg:#120D0E; --bg2:#1A1214; --line:#2E2224; --ink:#F2EAE3; --mute:#A89A92;
+  --red:#D7263D; --red2:#FF5468; --gold:#E9C46A; --ok:#6BBF8A;
+  --head:'Barlow Condensed','Arial Narrow',Arial,sans-serif; --body:'Barlow','Segoe UI',Arial,sans-serif;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--b);-webkit-font-smoothing:antialiased}
-a{color:var(--ink)}
-a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--red);outline-offset:3px}
-h1,h2,h3{font-family:var(--h);line-height:.95;margin:0;text-wrap:balance;text-transform:uppercase}
-.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-
-/* ---------- topo ---------- */
-.top{position:sticky;top:0;z-index:20;background:rgba(5,5,5,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:stretch;min-height:64px;gap:0}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;padding-right:28px;border-right:1px solid var(--line)}
-.brand b{display:block;font:800 24px/1 var(--h);letter-spacing:.04em}
-.brand small{display:block;font:600 10px/1 var(--b);letter-spacing:.28em;color:var(--mute);margin-top:4px}
-.tabs{display:flex;align-items:stretch;margin-left:20px}
-.tabs a{display:flex;align-items:center;padding:0 16px;font:700 12px var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);text-decoration:none;position:relative}
-.tabs a:hover{color:var(--ink)}
-.tabs a:hover::after{content:'';position:absolute;left:16px;right:16px;bottom:14px;height:2px;background:var(--red)}
-.top .dl{margin-left:auto;display:flex;align-items:center;background:var(--red);color:#fff;text-decoration:none;font:800 13px var(--b);letter-spacing:.16em;text-transform:uppercase;padding:0 26px;transition:background .15s}
-.top .dl:hover{background:#F23447}
-
-/* ---------- herói ---------- */
-.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);min-height:min(760px,calc(100vh - 64px));display:flex;align-items:center}
-.hero .art{position:absolute;inset:0;background:url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zed_0.jpg) 70% 18%/cover no-repeat;opacity:.55}
-.hero .art::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#050505 0%,rgba(5,5,5,.94) 34%,rgba(5,5,5,.55) 62%,rgba(5,5,5,.2) 100%),linear-gradient(0deg,#050505 0%,transparent 40%)}
-.hero .stripes{position:absolute;inset:0;pointer-events:none;background:linear-gradient(118deg,transparent 64%,rgba(224,38,58,.5) 64%,rgba(224,38,58,.5) 72%,transparent 72%,transparent 75.5%,rgba(224,38,58,.32) 75.5%,rgba(224,38,58,.32) 82%,transparent 82%);mix-blend-mode:screen}
-.hero .wrap{position:relative;z-index:2;width:100%;padding-block:72px 64px}
-.eb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font:700 12px var(--b);letter-spacing:.24em;text-transform:uppercase;color:#cfcfcf}
-.eb i{width:34px;height:1px;background:var(--red)}
-.word{display:flex;align-items:center;gap:clamp(8px,2vw,22px);margin:26px 0 8px}
-.word svg{width:clamp(70px,11vw,150px);height:auto;flex:none;filter:drop-shadow(0 10px 30px rgba(224,38,58,.25))}
-.word h1{font:800 clamp(84px,15vw,200px)/.82 var(--h);letter-spacing:.005em;color:#fff}
-.tl{font:800 clamp(26px,3.6vw,42px)/1 var(--h);text-transform:uppercase;margin:10px 0 0}
-.tl span{color:var(--red)}
-.lead{max-width:560px;color:#cfcfcf;font-size:17.5px;margin:22px 0 0}
-.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.btn{display:inline-flex;align-items:center;gap:14px;padding:16px 26px;font:800 14px var(--b);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;transition:background .15s,border-color .15s}
-.btn.main{background:var(--red);color:#fff}.btn.main:hover{background:#F23447}.btn.main:active{background:var(--red2)}
-.btn.main::after{content:'';width:0;height:0;border-left:9px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent}
-.btn.ghost{border-color:var(--line2);color:var(--ink)}.btn.ghost:hover{border-color:var(--red)}
-.note{color:var(--mute);font-size:13.5px;margin:16px 0 0;letter-spacing:.02em}
-
-/* ---------- faixa de status, igual ao rodape do launcher ---------- */
-.status{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line);background:var(--bar)}
-.status div{padding:20px 24px;border-right:1px solid var(--line);min-width:0}
-.status div:last-child{border-right:0}
-.status small{display:block;font:700 10.5px var(--b);letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
-.status b{display:flex;align-items:center;gap:10px;font:800 19px/1.2 var(--h);letter-spacing:.04em;text-transform:uppercase;margin-top:4px}
-.status b i{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(111,203,152,.15)}
-
-/* ---------- secoes ---------- */
-section{padding:96px 0;border-bottom:1px solid var(--line)}
-.kick{display:flex;align-items:center;gap:12px;font:700 12px var(--b);letter-spacing:.24em;text-transform:uppercase;color:var(--red)}
-.kick::before{content:'';width:34px;height:1px;background:var(--red)}
-h2{font:800 clamp(44px,6.4vw,80px)/.9 var(--h);margin-top:14px}
-.sub{color:#bdbdbd;max-width:640px;margin:18px 0 0;font-size:17px}
-
-.moments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:44px}
-.moment{background:var(--card);padding:30px 28px 32px;position:relative;min-width:0}
-.moment::before{content:'';position:absolute;left:0;top:0;width:56px;height:3px;background:var(--red)}
-.moment .n{font:800 46px/1 var(--h);color:#2a2a2a}
-.moment .when{font:700 11px var(--b);letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-top:14px}
-.moment h3{font:800 32px/1 var(--h);margin-top:8px}
-.moment ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
-.moment li{position:relative;padding-left:20px;color:#cfcfcf;font-size:15px}
-.moment li::before{content:'';position:absolute;left:0;top:.72em;width:8px;height:1px;background:var(--red)}
-
-.lines{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:44px}
-.line{display:flex;gap:16px;align-items:flex-start;background:var(--card);padding:22px 24px;min-width:0}
-.line i{flex:none;width:34px;height:34px;display:grid;place-items:center;background:var(--red);color:#fff;font:800 17px var(--h);font-style:normal}
-.line b{display:block;font:600 16.5px/1.4 var(--b)}
-.line small{display:block;color:var(--mute);font:700 11px var(--b);letter-spacing:.16em;text-transform:uppercase;margin-top:8px}
-
-.steps{list-style:none;padding:0;margin:44px 0 0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);counter-reset:s}
-.steps li{counter-increment:s;display:grid;grid-template-columns:96px minmax(0,1fr);background:var(--card)}
-.steps li::before{content:counter(s,decimal-leading-zero);display:grid;place-items:center;font:800 40px var(--h);color:var(--red);border-right:1px solid var(--line)}
-.steps li div{padding:22px 26px}
-.steps b{display:block;font:800 22px/1.1 var(--h);text-transform:uppercase;letter-spacing:.02em}
-.steps span{display:block;color:#bdbdbd;margin-top:6px}
-.steps a{color:#fff;text-decoration-color:var(--red);text-underline-offset:3px}
-.req{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.req span{border:1px solid var(--line2);padding:8px 14px;font:700 11.5px var(--b);letter-spacing:.14em;text-transform:uppercase;color:#cfcfcf}
-
-.faq{margin-top:40px;border-top:1px solid var(--line)}
-.faq details{border-bottom:1px solid var(--line)}
-.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 4px;font:800 22px/1.1 var(--h);text-transform:uppercase;letter-spacing:.02em}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:'+';font:600 28px/1 var(--b);color:var(--red);flex:none}
-.faq details[open] summary::after{content:'−'}
-.faq p{margin:0 4px 24px;color:#bdbdbd;max-width:760px}
-
-/* ---------- chamada final ---------- */
-.final{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:stretch;border-bottom:1px solid var(--line);background:var(--bar)}
-.final .t{padding:40px max(20px,calc((100vw - 1180px)/2 + 20px));min-width:0}
-.final .t h2{font-size:clamp(38px,5vw,64px);margin:0}
-.final .t p{color:var(--mute);margin:10px 0 0}
-.final a{display:flex;flex-direction:column;justify-content:center;gap:6px;background:var(--red);color:#fff;text-decoration:none;padding:0 clamp(28px,5vw,64px);min-width:280px;transition:background .15s}
-.final a:hover{background:#F23447}
-.final a small{font:700 11px var(--b);letter-spacing:.2em;text-transform:uppercase;opacity:.85}
-.final a b{font:800 44px/1 var(--h);text-transform:uppercase;letter-spacing:.02em}
-
-footer{padding:40px 0 56px;color:#777;font-size:13px}
-footer p{margin:0 0 10px;max-width:900px}
-
-@media (max-width:900px){
-  .tabs{display:none}
-  .moments{grid-template-columns:minmax(0,1fr)}
-  .lines{grid-template-columns:minmax(0,1fr)}
-  .status{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .status div:nth-child(2){border-right:0}
-  .status div:nth-child(-n+2){border-bottom:1px solid var(--line)}
-  .final{grid-template-columns:minmax(0,1fr)}
-  .final a{min-height:110px;padding:24px max(20px,env(safe-area-inset-left,0px))}
-  section{padding:68px 0}
-}
-@media (max-width:520px){
-  .brand{border-right:0;padding-right:0}
-  .eb{display:none}
-  .top .dl{padding:0 16px;font-size:12px}
-  .steps li{grid-template-columns:62px minmax(0,1fr)}
-  .steps li::before{font-size:28px}
-  .status{grid-template-columns:minmax(0,1fr)}
-  .status div{border-right:0;border-bottom:1px solid var(--line)}
-}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--body)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--red2)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3{font-family:var(--head);line-height:1;text-wrap:balance;margin:0}
+.kick{font:700 13px var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--red2)}
+/* topo */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
+.logo{display:flex;align-items:center;gap:10px;font:800 26px var(--head);letter-spacing:.06em}
+.logo svg{width:30px;height:30px}
+.top nav{display:flex;gap:18px;flex-wrap:wrap}
+.top nav a{color:var(--mute);text-decoration:none;font-weight:500}
+.top nav a:hover{color:var(--ink)}
+/* herói */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center;padding-block:36px 56px}
+.hero h1{font-size:clamp(46px,7vw,84px);font-weight:800;letter-spacing:-.01em;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p.lead{font-size:19px;color:#D9CDC4;max-width:34em;margin:18px 0 26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:12px;font:700 18px var(--head);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1px solid transparent}
+.btn.main{background:var(--red);color:#fff}
+.btn.main[aria-disabled="true"]{background:#3a2629;color:#cdb9b2;cursor:not-allowed}
+.btn.ghost{border-color:var(--line);color:var(--ink)}
+.note{font-size:13.5px;color:var(--mute)}
+/* cena */
+.scene{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:18px;overflow:hidden;border:1px solid var(--line);
+  background:radial-gradient(120% 90% at 30% 30%,#2b3a2c 0,#1a251d 50%,#0f1612 100%)}
+.scene::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(135deg,transparent 45%,rgba(70,110,150,.35) 46% 54%,transparent 55%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 2px,transparent 2px 36px)}
+.mm{position:absolute;right:4%;bottom:5%;width:38%;aspect-ratio:1;border-radius:6px;border:2px solid #4a3c2a;
+  background:linear-gradient(135deg,#1f3524,#152419);overflow:hidden}
+.mm::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(45deg,transparent 47%,#6b6a4a 47.5% 52.5%,transparent 53%),
+  linear-gradient(-45deg,transparent 46%,rgba(80,130,170,.6) 47% 53%,transparent 54%)}
+.mm .lane{position:absolute;background:#6b6a4a}
+.mm .t1{left:7%;top:7%;width:5%;height:80%}.mm .t2{left:7%;top:7%;width:80%;height:5%}
+.mm .b1{left:13%;bottom:7%;width:80%;height:5%}.mm .b2{right:7%;top:13%;width:5%;height:80%}
+.dot{position:absolute;width:13%;aspect-ratio:1;border-radius:50%;border:3px solid;transform:translate(-50%,-50%)}
+.dot.foe{border-color:#e0404f;background:#4a1d22;left:30%;top:24%}
+.dot.me{border-color:var(--gold);background:#4b3e1c;left:50%;top:50%}
+.dot.foe::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid #e0404f;opacity:.6;animation:ping 1.8s ease-out infinite}
+@keyframes ping{from{transform:scale(.6);opacity:.8}to{transform:scale(1.4);opacity:0}}
+.bub{position:absolute;right:4%;bottom:calc(5% + 38% + 14px);display:flex;align-items:center;gap:10px;max-width:72%;
+  background:#1B1112;border:2px solid var(--red);border-radius:14px;padding:10px 14px 10px 10px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.bub i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font:800 15px var(--head);display:flex;align-items:center;justify-content:center;font-style:normal}
+.bub span{font-weight:600;font-size:15px;line-height:1.3}
+.eb{position:absolute;left:4%;top:6%;display:grid;grid-template-columns:repeat(4,26px);gap:3px;background:#12141b;padding:5px;border-radius:8px}
+.eb b{width:26px;height:26px;border-radius:4px;background:#2A1F1E;display:flex;align-items:center;justify-content:center;font:600 11px var(--body);color:#ede7dc}
+.eb b.c{background:#000;color:#fff}.eb b.ch{background:#3b2a2c;color:var(--gold)}
+@media (prefers-reduced-motion:reduce){.dot.foe::after{animation:none}}
+/* faixas */
+section{padding-block:56px;border-top:1px solid var(--line)}
+section h2{font-size:clamp(34px,4.6vw,52px);text-transform:uppercase;font-weight:800;margin:6px 0 10px}
+section > .wrap > p.sub{color:var(--mute);max-width:46em;margin:0 0 28px}
+.moments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.moment{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:22px}
+.moment h3{font-size:26px;text-transform:uppercase;margin-bottom:10px}
+.moment ul{margin:0;padding-left:18px;color:#D9CDC4;display:grid;gap:7px}
+.moment .when{font:700 12px var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.lines{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.line{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:#1B1112;border:1px solid var(--line)}
+.line i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font:800 13px var(--head);display:flex;align-items:center;justify-content:center;font-style:normal;margin-top:2px}
+.line b{display:block;font-weight:600}.line small{color:var(--mute);font-size:13.5px}
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px}
+ol.steps li::before{content:counter(s);font:800 30px var(--head);color:var(--red);line-height:1}
+ol.steps b{display:block}ol.steps span{color:#D9CDC4}
+.req{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.req span{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;color:#D9CDC4}
+.faq{display:grid;gap:10px}
+.faq details{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.faq summary{cursor:pointer;font-weight:600}
+.faq p{margin:10px 0 0;color:#D9CDC4}
+footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--mute);font-size:13px}
+footer p{max-width:70em;margin:0 0 8px}
+@media (max-width:860px){.hero{grid-template-columns:1fr}.moments{grid-template-columns:1fr}.lines{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="./"><svg class='cmark' viewBox='0 0 48 48' width='44' height='44' aria-hidden='true'><defs><linearGradient id='css' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#eef0f4'/><stop offset='1' stop-color='#5c6373'/></linearGradient><linearGradient id='cds' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#8a91a0'/><stop offset='1' stop-color='#262a33'/></linearGradient></defs><g transform='translate(5 -4) rotate(22 24 24)' opacity='.8'><path d='M24,24L20.11,20.11L24.00,5.00ZM24,24L27.89,20.11L43.00,24.00ZM24,24L27.89,27.89L24.00,43.00ZM24,24L20.11,27.89L5.00,24.00Z' fill='#E0263A'/><path d='M24,24L24.00,5.00L27.89,20.11ZM24,24L43.00,24.00L27.89,27.89ZM24,24L24.00,43.00L20.11,27.89ZM24,24L5.00,24.00L20.11,20.11Z' fill='#E0263A' style='filter:brightness(.45)'/></g><g transform='rotate(8 24 24)'><path d='M24,24L20.11,20.11L24.00,5.00ZM24,24L27.89,20.11L43.00,24.00ZM24,24L27.89,27.89L24.00,43.00ZM24,24L20.11,27.89L5.00,24.00Z' fill='url(#css)'/><path d='M24,24L24.00,5.00L27.89,20.11ZM24,24L43.00,24.00L27.89,27.89ZM24,24L24.00,43.00L20.11,27.89ZM24,24L5.00,24.00L20.11,20.11Z' fill='url(#cds)'/></g><circle cx='24' cy='24' r='2.6' fill='#0b0b0e'/><circle cx='24' cy='24' r='1.2' fill='#E0263A'/></svg><span><b>CARRY</b><small>COACH DE LOL</small></span></a>
-    <nav class="tabs" aria-label="Seções"><a href="./#o-que-faz">O que faz</a><a href="./#avisos">Avisos</a><a href="./#instalar">Instalar</a><a href="chave.html">Chave da Riot</a><a href="./#duvidas">Dúvidas</a></nav>
-    <a class="dl dl2" href="Carry-Setup-1.4.3.zip" download>Baixar</a>
+<header class="wrap top">
+  <div class="logo" aria-label="Carry">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 1l3.6 11.4L31 16l-11.4 3.6L16 31l-3.6-11.4L1 16l11.4-3.6z" fill="#D7263D"/><path d="M16 8l1.8 6.2L24 16l-6.2 1.8L16 24l-1.8-6.2L8 16l6.2-1.8z" fill="#F2EAE3"/></svg>
+    CARRY
   </div>
+  <nav aria-label="Seções"><a href="#o-que-faz">O que faz</a><a href="#instalar">Instalar</a><a href="#duvidas">Dúvidas</a></nav>
 </header>
 
 <main>
-  <div class="hero">
-    <div class="art" aria-hidden="true"></div>
-    <div class="stripes" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="eb"><span>Carry</span><i></i><span>Coach de League of Legends</span><i></i><span>Para PC</span></div>
-      <div class="word"><svg class='cmark' viewBox='0 0 48 48' width='300' height='300' aria-hidden='true'><defs><linearGradient id='csh' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#eef0f4'/><stop offset='1' stop-color='#5c6373'/></linearGradient><linearGradient id='cdh' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#8a91a0'/><stop offset='1' stop-color='#262a33'/></linearGradient></defs><g transform='translate(5 -4) rotate(22 24 24)' opacity='.8'><path d='M24,24L20.11,20.11L24.00,5.00ZM24,24L27.89,20.11L43.00,24.00ZM24,24L27.89,27.89L24.00,43.00ZM24,24L20.11,27.89L5.00,24.00Z' fill='#E0263A'/><path d='M24,24L24.00,5.00L27.89,20.11ZM24,24L43.00,24.00L27.89,27.89ZM24,24L24.00,43.00L20.11,27.89ZM24,24L5.00,24.00L20.11,20.11Z' fill='#E0263A' style='filter:brightness(.45)'/></g><g transform='rotate(8 24 24)'><path d='M24,24L20.11,20.11L24.00,5.00ZM24,24L27.89,20.11L43.00,24.00ZM24,24L27.89,27.89L24.00,43.00ZM24,24L20.11,27.89L5.00,24.00Z' fill='url(#csh)'/><path d='M24,24L24.00,5.00L27.89,20.11ZM24,24L43.00,24.00L27.89,27.89ZM24,24L24.00,43.00L20.11,27.89ZM24,24L5.00,24.00L20.11,20.11Z' fill='url(#cdh)'/></g><circle cx='24' cy='24' r='2.6' fill='#0b0b0e'/><circle cx='24' cy='24' r='1.2' fill='#E0263A'/></svg><h1>Carry</h1></div>
-      <p class="tl">Quem treina, <span>carrega.</span></p>
+  <div class="wrap hero">
+    <div>
+      <div class="kick">Coach de League of Legends para PC</div>
+      <h1>Um coach que fala <em>na hora certa</em></h1>
       <p class="lead">O Carry acompanha suas ranqueadas: analisa seu histórico, monta suas runas na seleção e, dentro da partida, avisa só o que muda a jogada. Jungler chegando, objetivo nascendo, item pronto para comprar.</p>
       <div class="cta">
-        <a class="btn main dl2" id="dl" href="Carry-Setup-1.4.3.zip" download>Baixar o Carry</a>
+        <a class="btn main" id="dl" href="Carry-Setup.exe" download>Baixar o Carry</a>
         <a class="btn ghost" href="#o-que-faz">Ver o que ele faz</a>
       </div>
-      <p class="note"><span id="ver">Versão 1.4.3</span> · Grátis · Windows 10 e 11 · Usa a API oficial da Riot e o Data Dragon</p>
+      <p class="note">Grátis · Windows 10 e 11 · Usa a API oficial da Riot e o Data Dragon</p>
     </div>
-  </div>
-
-  <div class="status" aria-label="Resumo">
-    <div><small>Preço</small><b><i></i>Grátis</b></div>
-    <div><small>Sistema</small><b>Windows 10 e 11</b></div>
-    <div><small>Dados</small><b>API oficial da Riot</b></div>
-    <div><small>Atualização</small><b>Automática</b></div>
+    <div class="scene" role="img" aria-label="Exemplo dentro do jogo: o minimapa mostra o jungler inimigo perto e um balão do Carry avisa">
+      <div class="eb" aria-hidden="true"><b class="ch">Ga</b><b>Fl</b><b class="c">3:12</b><b>R</b><b class="ch">Le</b><b class="c">58</b><b>In</b><b>R</b></div>
+      <div class="bub"><i>C</i><span>Cuidado, jungler deles perto: no rio de baixo.</span></div>
+      <div class="mm" aria-hidden="true"><span class="lane t1"></span><span class="lane t2"></span><span class="lane b1"></span><span class="lane b2"></span><span class="dot foe"></span><span class="dot me"></span></div>
+    </div>
   </div>
 
   <section id="o-que-faz">
@@ -184,7 +131,6 @@ footer p{margin:0 0 10px;max-width:900px}
       <p class="sub">Tudo se adapta ao que você joga: sua rota, seu main e seu elo. Você não precisa clicar em nada durante a partida.</p>
       <div class="moments">
         <article class="moment">
-          <div class="n">01</div>
           <div class="when">Fora do jogo</div>
           <h3>Entenda seu jogo</h3>
           <ul>
@@ -197,19 +143,17 @@ footer p{margin:0 0 10px;max-width:900px}
           </ul>
         </article>
         <article class="moment">
-          <div class="n">02</div>
           <div class="when">Seleção de campeões</div>
           <h3>Entre pronto</h3>
           <ul>
             <li>Sugestão de ban e pick pelo seu histórico e pela composição</li>
-            <li>Runas montadas sozinhas quando você locka o campeão</li>
-            <li>Build dos melhores com o seu campeão na sua rota, na loja do jogo</li>
+            <li>Runas montadas sozinho quando você trava o campeão</li>
+            <li>Itens dos melhores na loja do jogo</li>
             <li>Elo, winrate e maestria do time inimigo, e quem está de duo</li>
             <li>Plano da partida falado: o duelo, o perigo e o seu pico</li>
           </ul>
         </article>
         <article class="moment">
-          <div class="n">03</div>
           <div class="when">Dentro do jogo</div>
           <h3>Ouça só o necessário</h3>
           <ul>
@@ -225,17 +169,17 @@ footer p{margin:0 0 10px;max-width:900px}
     </div>
   </section>
 
-  <section id="avisos">
+  <section>
     <div class="wrap">
       <div class="kick">Exemplos reais de aviso</div>
       <h2>Frases curtas, na hora certa</h2>
       <p class="sub">O Carry fala uma coisa de cada vez e fica quieto nas lutas grandes. Cada aviso pode ser desligado.</p>
       <div class="lines">
-        <div class="line"><i>C</i><div><b>"Já montei sua página de runas: Eletrocutar, com Feitiçaria na secundária."</b><small>Ao lockar o campeão</small></div></div>
-        <div class="line"><i>C</i><div><b>"Dragão em um minuto e meio: volte agora, compre e chegue com visão no objetivo."</b><small>Antes do objetivo, com ouro sobrando</small></div></div>
+        <div class="line"><i>C</i><div><b>"Já montei sua página de runas: Eletrocutar, com Feitiçaria na secundária."</b><small>Ao travar o campeão</small></div></div>
+        <div class="line"><i>C</i><div><b>"Dragão em um minuto e meio: volte agora, compre e chegue com controle de visão."</b><small>Antes do objetivo, com ouro sobrando</small></div></div>
         <div class="line"><i>C</i><div><b>"Já dá pra comprar Lorde Dominik. Volte quando a onda deixar."</b><small>Quando o ouro fecha o próximo item</small></div></div>
         <div class="line"><i>C</i><div><b>"Caçador deles morto: peguem o Dragão agora."</b><small>Janela de objetivo</small></div></div>
-        <div class="line"><i>C</i><div><b>"Nível 6: sua ultimate está pronta."</b><small>Dica do seu campeão</small></div></div>
+        <div class="line"><i>C</i><div><b>"Nível 6: sua ultimate está pronta."</b><small>Dica do seu campeão, para qualquer campeão</small></div></div>
         <div class="line"><i>C</i><div><b>"2 a menos. Recue, não lute."</b><small>Desvantagem numérica</small></div></div>
       </div>
     </div>
@@ -246,10 +190,9 @@ footer p{margin:0 0 10px;max-width:900px}
       <div class="kick">Leva uns 2 minutos</div>
       <h2>Como instalar</h2>
       <ol class="steps">
-        <li><div><b>Baixe o instalador</b><span><a href="Carry-Setup-1.4.3.zip" download class="dl2">Clique em Baixar</a>: o instalador baixa direto, num .zip. Abra o .zip e dê dois cliques no Carry-Setup.</span></div></li>
+        <li><div><b>Baixe o instalador</b><span><a href="Carry-Setup.exe" download>Baixar Carry-Setup.exe</a>. Se o Chrome avisar que o arquivo não é comumente baixado, clique na seta ao lado dele e em "Manter". É só porque o app é novo e ainda não tem assinatura paga.</span></div></li>
         <li><div><b>Passe pelo aviso do Windows</b><span>Como o app é novo e não tem assinatura paga, o Windows mostra um aviso azul. Clique em "Mais informações" e depois em "Executar assim mesmo".</span></div></li>
-        <li><div><b>Siga o instalador</b><span>Se faltar o Python, ele baixa e instala sozinho. No fim, o Carry abre na janela dele, com o launcher e um passo a passo.</span></div></li>
-        <li><div><b>Pegue sua chave da Riot</b><span>É grátis e leva 2 minutos. <a href="chave.html">Veja o passo a passo com imagens</a>.</span></div></li>
+        <li><div><b>Siga o instalador</b><span>Se faltar o Python, ele baixa e instala sozinho. No fim, o Carry abre no navegador com um passo a passo.</span></div></li>
         <li><div><b>Crie sua conta e vincule seu Riot ID</b><span>O app descobre seu main pela maestria e pelas partidas, e você confirma.</span></div></li>
         <li><div><b>Jogue com o LoL em modo Sem bordas</b><span>Configurações do jogo &gt; Vídeo &gt; Modo de janela. Em tela cheia o overlay não aparece.</span></div></li>
       </ol>
@@ -263,19 +206,13 @@ footer p{margin:0 0 10px;max-width:900px}
       <h2>Dúvidas</h2>
       <div class="faq">
         <details><summary>É pago?</summary><p>Não. O Carry é gratuito.</p></details>
-        <details><summary>Como atualizo?</summary><p>Não precisa. Quando sai versão nova, o Carry se atualiza sozinho e nunca no meio de uma partida.</p></details>
         <details><summary>Onde ficam meus dados?</summary><p>No seu computador. Suas partidas, configurações e chaves ficam numa pasta local; o app não tem servidor próprio. Ele só conversa com a API oficial da Riot, com o Data Dragon e, se você ativar, com o serviço de IA e de voz que você escolher.</p></details>
-        <details><summary>Ele joga por mim ou mexe no jogo?</summary><p>Não. O Carry não aperta teclas, não altera arquivos do jogo e não lê a memória do jogo. Ele usa os dados que o próprio LoL disponibiliza para apps (cliente e partida ao vivo) e mostra avisos por cima, num overlay. O Carry não mostra na tela as recargas de Flash e ultimate dos inimigos.</p></details>
+        <details><summary>Ele joga por mim ou mexe no jogo?</summary><p>Não. O Carry não aperta teclas, não altera arquivos do jogo e não lê a memória do jogo. Ele usa os dados que o próprio LoL disponibiliza para apps (cliente e partida ao vivo) e mostra avisos por cima, num overlay. O aviso opcional de jungler visto (beta) olha só a imagem do seu minimapa na tela, e o contador de Flash e ult dos inimigos é marcado por você com um clique.</p></details>
         <details><summary>Preciso deixar alguma janela aberta?</summary><p>Não. Depois de instalado, o Carry liga com o Windows e fica em segundo plano. O overlay aparece sozinho quando a partida começa.</p></details>
         <details><summary>Dá para desligar a voz ou algum aviso?</summary><p>Sim. Na página Editar overlay cada aviso tem um botão, e o modo "só o necessário" já vem ligado.</p></details>
       </div>
     </div>
   </section>
-
-  <div class="final">
-    <div class="t"><h2>Bora subir de elo?</h2><p>Grátis, para Windows 10 e 11.</p></div>
-    <a class="dl2" href="Carry-Setup-1.4.3.zip" download><small>Coach de League of Legends</small><b>Baixar ▸</b></a>
-  </div>
 </main>
 
 <footer>
@@ -286,11 +223,7 @@ footer p{margin:0 0 10px;max-width:900px}
 </footer>
 
 <script>
-fetch('versao.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(v){
-  if(!v||!v.versao)return;var f=(v.instalador||'').split('/').pop()||('Carry-Setup-'+v.versao+'.zip');
-  document.querySelectorAll('.dl2').forEach(function(a){a.href=f});
-  var s=document.getElementById('ver');if(s)s.textContent='Versão '+v.versao;
-}).catch(function(){});
 </script>
+
 </body>
 </html>
