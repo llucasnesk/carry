@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Carry: coach de League of Legends para PC. Analisa suas ranqueadas, monta runas e avisa o que importa durante a partida.">
+<meta name="description" content="Carry: coach de League of Legends para PC. Analisa suas ranqueadas, monta runas, ensina por fase da partida e avisa o que importa durante o jogo.">
 <title>Carry Coach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
@@ -110,7 +110,7 @@ footer p{max-width:70em;margin:0 0 8px}
     <div>
       <div class="kick">Coach de League of Legends para PC</div>
       <h1>Um coach que fala <em>na hora certa</em></h1>
-      <p class="lead">O Carry acompanha suas ranqueadas: analisa seu histórico, monta suas runas na seleção e, dentro da partida, avisa só o que muda a jogada. Jungler chegando, objetivo nascendo, item pronto para comprar.</p>
+      <p class="lead">O Carry acompanha suas ranqueadas: analisa seu histórico, monta suas runas na seleção, ensina uma lição por fase da partida e, dentro do jogo, avisa só o que muda a jogada. Jungler chegando, objetivo nascendo, item pronto para comprar.</p>
       <div class="cta">
         <a class="btn main" id="dl" href="Carry-Setup.exe" download>Baixar o Carry</a>
         <a class="btn ghost" href="#o-que-faz">Ver o que ele faz</a>
@@ -140,13 +140,18 @@ footer p{max-width:70em;margin:0 0 8px}
             <li>Seus erros mais caros e o que treinar</li>
             <li>Build e runas dos melhores, tier list, duelos e patch</li>
             <li>Coach com IA que responde com base nas suas partidas</li>
+            <li>Aulas: a trilha do seu elo, com 40 lições para a temporada 2026</li>
+            <li>Plano da partida no pós-jogo: mede se você seguiu as aulas (farm aos 14, mortes por fase, objetivos)</li>
+            <li>Início em abas, sem rolar a página inteira</li>
           </ul>
         </article>
         <article class="moment">
           <div class="when">Seleção de campeões</div>
           <h3>Entre pronto</h3>
           <ul>
-            <li>Sugestão de ban e pick pelo seu histórico e pela composição</li>
+            <li>Sugestão de ban e pick pelo seu histórico e pela composição; quem já foi banido ou escolhido nunca aparece</li>
+            <li>Descobre o seu oponente de rota mesmo quando o cliente não mostra</li>
+            <li>Seu plano contra o time inimigo em destaque, com o resto recolhido</li>
             <li>Runas montadas sozinho quando você trava o campeão</li>
             <li>Itens dos melhores na loja do jogo</li>
             <li>Elo, winrate e maestria do time inimigo, e quem está de duo</li>
@@ -158,6 +163,9 @@ footer p{max-width:70em;margin:0 0 8px}
           <h3>Ouça só o necessário</h3>
           <ul>
             <li>Voz e um balão curto que some sozinho</li>
+            <li>Uma lição curta por fase: no começo, aos 14 e aos 25 minutos</li>
+            <li>Tela ao vivo com o que fazer neste minuto, a build e o placar</li>
+            <li>Na tela de carregamento, a leitura de todos os jogadores</li>
             <li>Objetivos chegando e quando voltar para a base antes</li>
             <li>Próximo item quando o ouro fecha, ajustado contra o time deles</li>
             <li>Dicas do seu campeão no momento certo</li>
@@ -181,6 +189,7 @@ footer p{max-width:70em;margin:0 0 8px}
         <div class="line"><i>C</i><div><b>"Caçador deles morto: peguem o Dragão agora."</b><small>Janela de objetivo</small></div></div>
         <div class="line"><i>C</i><div><b>"Nível 6: sua ultimate está pronta."</b><small>Dica do seu campeão, para qualquer campeão</small></div></div>
         <div class="line"><i>C</i><div><b>"2 a menos. Recue, não lute."</b><small>Desvantagem numérica</small></div></div>
+        <div class="line"><i>C</i><div><b>"14 minutos: junte com o time e vá ao dragão."</b><small>Lição da fase, só em silêncio</small></div></div>
       </div>
     </div>
   </section>
@@ -209,6 +218,7 @@ footer p{max-width:70em;margin:0 0 8px}
         <details><summary>Onde ficam meus dados?</summary><p>No seu computador. Suas partidas, configurações e chaves ficam numa pasta local; o app não tem servidor próprio. Ele só conversa com a API oficial da Riot, com o Data Dragon e, se você ativar, com o serviço de IA e de voz que você escolher.</p></details>
         <details><summary>Ele joga por mim ou mexe no jogo?</summary><p>Não. O Carry não aperta teclas, não altera arquivos do jogo e não lê a memória do jogo. Ele usa os dados que o próprio LoL disponibiliza para apps (cliente e partida ao vivo) e mostra avisos por cima, num overlay. O aviso opcional de jungler visto (beta) olha só a imagem do seu minimapa na tela, e o contador de Flash e ult dos inimigos é marcado por você com um clique.</p></details>
         <details><summary>Preciso deixar alguma janela aberta?</summary><p>Não. Depois de instalado, o Carry liga com o Windows e fica em segundo plano. O overlay aparece sozinho quando a partida começa.</p></details>
+        <details><summary>Como o Carry se atualiza?</summary><p>Sozinho. Ele baixa a versão nova em segundo plano e mostra "Sua atualização está pronta". É só clicar em Reiniciar para instalar, ou em Depois.</p></details>
         <details><summary>Dá para desligar a voz ou algum aviso?</summary><p>Sim. Na página Editar overlay cada aviso tem um botão, e o modo "só o necessário" já vem ligado.</p></details>
       </div>
     </div>
