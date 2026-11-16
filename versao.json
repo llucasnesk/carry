@@ -1,20 +1,9 @@
 {
- "versao": "1.5.1",
- "zip": "https://enuria-finance.github.io/carry/carry-app-1.5.1.zip",
- "sha256": "a996f12604ba46b5ebc36901e8e2b4d665b3939374fb11fa38c64accb2212bc0",
+ "versao": "1.5.2",
+ "zip": "https://carry-coach.app/carry-app-1.5.2.zip",
+ "sha256": "09ff478bfe5284d7361356a905ed9aebf4c21ff84ad108fe0a2f2daa2068f2b8",
  "notas": [
-  "Evolução e rotina: carta da semana, mini-aula, melhores jogos, winrate por tipo de oponente, patch novo do main, check antes da fila, modo só uma e pausa a cada 2 horas",
-  "Overlay: volume menor nas lutas, balão e letra com tamanhos separados, perfis de aviso, voz diferente para urgente, teste com partida simulada e página de status",
-  "Aulas: nova página Guia do jogo > Aulas, com a trilha do seu elo e 40 lições (objetivos, fases da partida, recall, selva, suporte, jogada da vitória, itens e cabeça), reescritas para a temporada 2026",
-  "Plano da partida: no pós-jogo o Carry mede se você seguiu as aulas (farm aos 14, mortes sozinho por fase, presença nos objetivos, recall durante objetivo) e liga cada item à aula",
-  "Voz: uma lição curta por fase (no começo, aos 14 e aos 25 minutos), só em silêncio; liga e desliga em Editar overlay > Aulas por fase",
-  "Remake e derrota mitigada (time desistiu cedo, sem perder PDL) não contam mais como derrota",
-  "Botão Reiniciar o Carry na barra lateral e instalador baixado direto pelo site (Carry-Setup.exe)",
-  "Seleção: o plano contra o inimigo agora aparece em destaque, e ameaças, plano B, sinergia e pool ficam recolhidos",
-  "Ao vivo: \"Agora\" passou para o primeiro quadro, antes da build",
-  "Voz: corrigido o estouro que tocava no fim de cada frase",
-  "Seleção: banido ou já escolhido não é mais sugerido; ban só de quem joga a sua rota",
-  "Seleção: o oponente de rota é adivinhado distribuindo os 5 inimigos pelas rotas (Nunu não vira mais o mid inimigo)"
+  "Atualização automática: o Carry passa a procurar versões novas em carry-coach.app (o endereço antigo saiu do ar e as atualizações não chegavam)"
  ],
- "instalador": "https://carry-coach.app/Carry-Setup.exe"
+ "instalador": "https://carry-coach.app/"
 }
